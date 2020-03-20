@@ -1,3 +1,10 @@
+''' 
+First pass in my head is saying use bubble sort
+Pick up item, move right, compare, if held is larger swap, move right, place
+Otherwise move left, place, move right repeat
+'''
+
+
 class SortingRobot:
     def __init__(self, l):
         """
@@ -92,21 +99,206 @@ class SortingRobot:
         """
         return self._light == "ON"
 
+    def compare_up(self):
+        """This takes a value then moves up the line until it
+        either finds a value greater than itself or reaches the end
+        if it ends up being greater than any value it turns the light off"""
+        while self.can_move_right() == True:
+            if self.compare_item() == 1:
+                self.set_light_off()
+                self.move_right()
+            else:
+                return
+
+    def compare_down(self):
+        """This takes a value then moves down the line until it
+        either finds a value smaller than itself or reaches an open space"""
+        while self.can_move_left() == True:
+            # move left
+            self.move_left()
+            # compare
+            # if lesser
+            if self.compare_item() == -1:
+                # move left
+                self.move_left()
+            # else if greater
+            elif self.compare_item() == 1:
+                # swap
+                self.swap_item()
+            # else
+            else:
+                # swap
+                self.swap_item()
+                # move right
+                self.move_right()
+                # break
+                break
+
+
+
     def sort(self):
         """
         Sort the robot's list.
         """
-        # Fill this out
-        pass
+        ''' # robot starts at postition 0
+        # swaps
+        while True:
+            # turns the light on to check for order
+            self.set_light_on()
+            while self.can_move_right() == True:
+                # grabs first itme
+                self.swap_item()
+                # moves right
+                self.move_right()
 
+                # compares with each value
+                # if held is greater than other value
+                # turns light off and moves up
+                self.compare_up()
+
+                # This is for the last position                
+                if self.compare_item() == 1:
+                    # swap
+                    self.swap_item()
+                # else
+                else:
+                    # Once a larger value it will move backwards
+                    # if it finds a smaller value it will swap
+                    # if it finds a larger value it will move left
+                    # if it finds an empty space it will swap then move right
+                    self.compare_down()
+            # this is to test if the list is ordered        
+            while self.can_move_right == True:
+                self.move_right()
+                if self.light_is_on() == True and self.can_move_right == False:
+                    return
+            while self.can_move_left() == True:
+                self.move_left()'''
+
+        # robot starts at position 0
+        # lightbulb on
+        while True:
+            self.set_light_on()
+            while self.can_move_right() == True:
+                # pick up item
+                self.swap_item()
+                # move right
+                self.move_right()
+                # compare
+                # if held is greater
+                if self.compare_item() == 1:
+                    # turn lightbulb off
+                    self.set_light_off()
+                    # swap
+                    self.swap_item()
+                    # move left
+                    self.move_left()
+                    # swap
+                    self.swap_item()
+                    
+
+                    # if can move left
+                    # while self.can_move_left() == True:
+                    #     # move left
+                    #     self.move_left()
+                    #     # compare
+                    #     compare = self.compare_item()
+                    #     # if greater
+                    #     if compare == 1:
+                    #         self.swap()
+                    #     else:
+                    #         pass
+
+
+                    # move right
+                    self.move_right()
+                # else (if held is lesser)
+                else:
+                    # move left
+                    self.move_left()
+                    # swap
+                    self.swap_item()
+                    # move right
+                    self.move_right()
+                # if cant move right
+                if self.can_move_right() == False:
+                    # if lightbulb on
+                    if self.light_is_on() == True:
+                        return
+                    # else
+                    else:
+                        while self.can_move_left() == True:
+                            # move left to pos 0
+                            self.move_left()
+                    # repeat
 
 if __name__ == "__main__":
     # Test our your implementation from the command line
     # with `python robot_sort.py`
 
-    l = [15, 41, 58, 49, 26, 4, 28, 8, 61, 60, 65, 21, 78, 14, 35, 90, 54, 5, 0, 87, 82, 96, 43, 92, 62, 97, 69, 94, 99, 93, 76, 47, 2, 88, 51, 40, 95, 6, 23, 81, 30, 19, 25, 91, 18, 68, 71, 9, 66, 1, 45, 33, 3, 72, 16, 85, 27, 59, 64, 39, 32, 24, 38, 84, 44, 80, 11, 73, 42, 20, 10, 29, 22, 98, 17, 48, 52, 67, 53, 74, 77, 37, 63, 31, 7, 75, 36, 89, 70, 34, 79, 83, 13, 57, 86, 12, 56, 50, 55, 46]
-
+    # l = [15, 41, 58, 49, 26, 4, 28, 8, 61, 60, 65, 21, 78, 14, 35, 90, 54, 5, 0, 87, 82, 96, 43, 92, 62, 97, 69, 94, 99, 93, 76, 47, 2, 88, 51, 40, 95, 6, 23, 81, 30, 19, 25, 91, 18, 68, 71, 9, 66, 1, 45, 33, 3, 72, 16, 85, 27, 59, 64, 39, 32, 24, 38, 84, 44, 80, 11, 73, 42, 20, 10, 29, 22, 98, 17, 48, 52, 67, 53, 74, 77, 37, 63, 31, 7, 75, 36, 89, 70, 34, 79, 83, 13, 57, 86, 12, 56, 50, 55, 46]
+    l = [5, 4, 3, 2, 1]
     robot = SortingRobot(l)
 
     robot.sort()
     print(robot._list)
+
+
+
+        # # robot starts at position 0
+        # # lightbulb on
+        # while True:
+        #     self.set_light_on()
+        #     while self.can_move_right() == True:
+        #         # pick up item
+        #         self.swap_item()
+        #         # move right
+        #         self.move_right()
+        #         # compare
+        #         # if held is greater
+        #         if self.compare_item() == 1:
+        #             # turn lightbulb off
+        #             self.set_light_off()
+        #             # swap
+        #             self.swap_item()
+        #             # move left
+        #             self.move_left()
+        #             # swap
+        #             self.swap_item()
+                    
+
+        #             # if can move left
+        #             # while self.can_move_left() == True:
+        #             #     # move left
+        #             #     self.move_left()
+        #             #     # compare
+        #             #     compare = self.compare_item()
+        #             #     # if greater
+        #             #     ''' Check here for optimization '''
+        #             #     if compare == 1:
+        #             #         self.swap()
+        #             #     else:
+        #             #         pass
+
+
+        #             # move right
+        #             self.move_right()
+        #         # else (if held is lesser)
+        #         else:
+        #             # move left
+        #             self.move_left()
+        #             # swap
+        #             self.swap_item()
+        #             # move right
+        #             self.move_right()
+        #         # if cant move right
+        #         if self.can_move_right() == False:
+        #             # if lightbulb on
+        #             if self.light_is_on() == True:
+        #                 return
+        #             # else
+        #             else:
+        #                 while self.can_move_left() == True:
+        #                     # move left to pos 0
+        #                     self.move_left()
+        #             # repeat
