@@ -103,50 +103,67 @@ class SortingRobot:
         """This takes a value then moves up the line until it
         either finds a value greater than itself or reaches the end
         if it ends up being greater than any value it turns the light off"""
+        # print('up') Used for testing
         while self.can_move_right() == True:
+            # print(self._item)
             if self.compare_item() == 1:
                 self.set_light_off()
                 self.move_right()
             else:
                 return
 
+
+# [15, 41, 58, 49, 26, 4, 28, 8, 61, 60, 65, 21, 78,
+
     def compare_down(self):
         """This takes a value then moves down the line until it
         either finds a value smaller than itself or reaches an open space"""
+        # print('down') Used for testing
         while self.can_move_left() == True:
+            # print(self._item)
             # move left
             self.move_left()
+            # print('left')
             # compare
             # if lesser
-            if self.compare_item() == -1:
+            if self.compare_item() == -1 or self.compare_item() == 0:
                 # move left
-                self.move_left()
+                continue
             # else if greater
             elif self.compare_item() == 1:
                 # swap
                 self.swap_item()
+                # print('swap')
             # else
-            else:
+            elif self.compare_item() == None:
                 # swap
                 self.swap_item()
                 # move right
                 self.move_right()
                 # break
-                break
+                return
 
 
+# [15, 41, 58, 49, 26, 4, 28, 8, 61, 60, 65, 21, 78,
 
     def sort(self):
         """
         Sort the robot's list.
         """
-        ''' # robot starts at postition 0
+        # robot starts at postition 0
         # swaps
         while True:
             # turns the light on to check for order
+            
+            while self.can_move_left() == True:
+                # self.swap_item()
+                # self.compare_down()
+                self.move_left()
             self.set_light_on()
+            # print(self._list)
+            # print(self.light_is_on())
             while self.can_move_right() == True:
-                # grabs first itme
+                # grabs item
                 self.swap_item()
                 # moves right
                 self.move_right()
@@ -160,22 +177,22 @@ class SortingRobot:
                 if self.compare_item() == 1:
                     # swap
                     self.swap_item()
-                # else
-                else:
-                    # Once a larger value it will move backwards
-                    # if it finds a smaller value it will swap
-                    # if it finds a larger value it will move left
-                    # if it finds an empty space it will swap then move right
-                    self.compare_down()
+                # Once a larger value it will move backwards
+                # if it finds a smaller value it will swap
+                # if it finds a larger value it will move left
+                # if it finds an empty space it will swap then move right
+                self.compare_down()
+
             # this is to test if the list is ordered        
             while self.can_move_right == True:
                 self.move_right()
-                if self.light_is_on() == True and self.can_move_right == False:
-                    return
-            while self.can_move_left() == True:
-                self.move_left()'''
+            if self.light_is_on() == True:
+                return print(self._list)
+                
 
-        # robot starts at position 0
+
+
+        '''# robot starts at position 0
         # lightbulb on
         while True:
             self.set_light_on()
@@ -224,20 +241,24 @@ class SortingRobot:
                 if self.can_move_right() == False:
                     # if lightbulb on
                     if self.light_is_on() == True:
-                        return
+                        return print(self._list)
                     # else
                     else:
                         while self.can_move_left() == True:
                             # move left to pos 0
                             self.move_left()
-                    # repeat
+                break
+                    # repeat'''
 
 if __name__ == "__main__":
     # Test our your implementation from the command line
     # with `python robot_sort.py`
 
     # l = [15, 41, 58, 49, 26, 4, 28, 8, 61, 60, 65, 21, 78, 14, 35, 90, 54, 5, 0, 87, 82, 96, 43, 92, 62, 97, 69, 94, 99, 93, 76, 47, 2, 88, 51, 40, 95, 6, 23, 81, 30, 19, 25, 91, 18, 68, 71, 9, 66, 1, 45, 33, 3, 72, 16, 85, 27, 59, 64, 39, 32, 24, 38, 84, 44, 80, 11, 73, 42, 20, 10, 29, 22, 98, 17, 48, 52, 67, 53, 74, 77, 37, 63, 31, 7, 75, 36, 89, 70, 34, 79, 83, 13, 57, 86, 12, 56, 50, 55, 46]
-    l = [5, 4, 3, 2, 1]
+    # l = [5, 4, 3, 2, 1]
+    l = [11, 13, 7, 17, 9, 20, 1, 21, 2, 4, 22, 16, 15, 10, 23, 19, 8, 3, 5, 14, 6, 0, 24, 12, 18]
+
+    
     robot = SortingRobot(l)
 
     robot.sort()
